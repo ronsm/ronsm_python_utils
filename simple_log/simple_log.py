@@ -40,41 +40,38 @@ class SimpleLog(object):
         caller_class = stack[2][0].f_locals['self'].__class__.__name__
         caller_method = stack[2][0].f_code.co_name
 
-        caller_id = re.sub(r'(?<!^)(?=[A-Z])', '_', caller_class).lower()
-        
-        return caller_id
+        class_id = re.sub(r'(?<!^)(?=[A-Z])', '_', caller_class).lower()
+        method_id = re.sub(r'(?<!^)(?=[A-Z])', '_', caller_method).lower()
+
+        caller_tag = '[' + class_id + ']' + '[' + method_id + ']'
+
+        return caller_tag
     
     def log_state(self, state):
-        caller_id = self.get_caller_id()
-        tag = '[' + caller_id + ']'
+        caller_tag = self.get_caller_id()
         try:
             state_str = STATES[state]
-            print(Fore.CYAN + tag + Fore.MAGENTA + '[s]' + Fore.RESET + ' state switched to: ' + Fore.MAGENTA + state_str, Fore.RESET)
+            print(Fore.CYAN + caller_tag + Fore.MAGENTA + '[s]' + Fore.RESET + ' state switched to: ' + Fore.MAGENTA + state_str, Fore.RESET)
         except KeyError:
             self.log_bad('Invalid state provided.')
     
     def log_normal(self, msg):
-        caller_id = self.get_caller_id()
-        tag = '[' + caller_id + ']'
-        print(Fore.CYAN + tag + Fore.MAGENTA + '[m]', Fore.RESET + msg)
+        caller_tag = self.get_caller_id()
+        print(Fore.CYAN + caller_tag + Fore.MAGENTA + '[m]', Fore.RESET + msg)
 
     def log_math(self, msg):
-        caller_id = self.get_caller_id()
-        tag = '[' + caller_id + ']'
-        print(Fore.CYAN + tag + Fore.MAGENTA + '[m]', Fore.YELLOW + msg, Fore.RESET)
+        caller_tag = self.get_caller_id()
+        print(Fore.CYAN + caller_tag + Fore.MAGENTA + '[m]', Fore.YELLOW + msg, Fore.RESET)
     
     def log_bad(self, msg):
-        caller_id = self.get_caller_id()
-        tag = '[' + caller_id + ']'
-        print(Fore.CYAN + tag + Fore.MAGENTA + '[m]', Fore.LIGHTRED_EX + msg, Fore.RESET)
+        caller_tag = self.get_caller_id()
+        print(Fore.CYAN + caller_tag + Fore.MAGENTA + '[m]', Fore.LIGHTRED_EX + msg, Fore.RESET)
 
     def log_good(self, msg):
-        caller_id = self.get_caller_id()
-        tag = '[' + caller_id + ']'
-        print(Fore.CYAN + tag + Fore.MAGENTA + '[m]', Fore.GREEN + msg, Fore.RESET)
+        caller_tag = self.get_caller_id()
+        print(Fore.CYAN + caller_tag + Fore.MAGENTA + '[m]', Fore.GREEN + msg, Fore.RESET)
 
     def log_mini_header(self, msg):
-        caller_id = self.get_caller_id()
-        tag = '[' + caller_id + ']'
+        caller_tag = self.get_caller_id()
         print('- break -')
-        print(Fore.CYAN + tag + Fore.MAGENTA + '[h]', Fore.YELLOW + '* ' + msg + ' *' + Style.RESET_ALL, Fore.RESET)
+        print(Fore.CYAN + caller_tag + Fore.MAGENTA + '[h]', Fore.YELLOW + '* ' + msg + ' *' + Style.RESET_ALL, Fore.RESET)
