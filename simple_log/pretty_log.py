@@ -9,7 +9,7 @@ STATES = {
     -1 : 'error'
 }
 
-class SimpleLog(object):
+class PrettyLog(object):
     def __init__(self, config):
         self.config = config
 
