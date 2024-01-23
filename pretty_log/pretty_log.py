@@ -2,6 +2,7 @@ from colorama import Fore, Style
 import inspect
 import re
 from enum import Enum
+import os
 
 STATES = {
     0 : 'ready',
@@ -12,6 +13,7 @@ STATES = {
 class PrettyLog(object):
     def __init__(self, config):
         self.config = config
+        os.system('cls' if os.name == 'nt' else 'clear')
 
     def welcome(self):
         package_name_str = ' ' + self.config['package_name']
