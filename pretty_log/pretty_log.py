@@ -5,9 +5,18 @@ from enum import Enum
 import os
 
 STATES = {
-    0 : 'ready',
-    1 : 'wait',
-    -1 : 'error'
+    0 : {
+        'description': 'ready',
+        'colour': Fore.GREEN
+    },
+    1 : {
+        'description': 'wait',
+        'colour': Fore.YELLOW
+    },
+    -1 : {
+        'descrption': 'error',
+        'colour': Fore.LIGHTRED_EX
+    }
 }
 
 class PrettyLog(object):
@@ -52,8 +61,8 @@ class PrettyLog(object):
     def log_state(self, state):
         caller_tag = self.get_caller_id()
         try:
-            state_str = STATES[state]
-            print(Fore.CYAN + caller_tag + Fore.MAGENTA + '[s]' + Fore.RESET + ' state switched to: ' + Fore.MAGENTA + state_str, Fore.RESET)
+            state_str = STATES[state]['description']
+            print(Fore.CYAN + caller_tag + Fore.MAGENTA + '[s]' + Fore.RESET + ' -> '+ Style.BRIGHT + STATES[state]['colour'] + state_str, Style.NORMAL + Fore.RESET)
         except KeyError:
             self.log_bad('Invalid state provided.')
     
